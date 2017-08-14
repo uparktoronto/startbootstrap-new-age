@@ -319,7 +319,7 @@ footer {
   padding: 15px 45px; }
 
 .emailCtn {
-  margin: 0;
+  padding: 0;
 }
 
 .emailBtn {
@@ -339,7 +339,7 @@ footer {
   }
 }
 
-  /* The Modal (background) */
+/* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
