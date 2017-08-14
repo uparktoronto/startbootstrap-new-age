@@ -318,6 +318,16 @@ footer {
   font-size: 11px;
   padding: 15px 45px; }
 
+#myBtn, .emailBtn {
+  background-color: #FFD966;
+  color: white;
+}
+#myBtn:hover, #myBtn:active, .emailBtn:hover, .emailBtn:active {
+  cursor: pointer;
+  background-color: white;
+  color: #FFD966;
+}
+
   /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -336,10 +346,10 @@ footer {
 .modal-content {
     opacity: 0.95;
     font-size: 18px;
-    background-color: #fefefe;
+    background-color: white;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
-    border: 1px solid #888;
+    border: 2px solid white;
     width: 60%; /* Could be more or less, depending on screen size */
 }
 
