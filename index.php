@@ -1,3 +1,72 @@
+<?php
+$field_email = $_POST['email'];
+
+// Set email variables
+$email_to = 'uparktoronto@gmail.com';
+$email_subject = 'Interested Customer'.$field_name;
+
+$headers = 'From: '.$field_email."\r\n";
+$headers .= 'Reply-To: '.$field_email."\r\n";
+
+// Set required fields
+$required_fields = array('email');
+
+// set error messages
+$error_messages = array(
+  'email' => 'Please enter a valid Email Address to proceed.'
+);
+
+// Set form status
+$form_complete = FALSE;
+
+// configure validation array
+$validation = array();
+
+// check form submittal
+if(!empty($_POST)) {
+  // Sanitise POST array
+  foreach($_POST as $key => $value) $_POST[$key] = remove_email_injection(trim($value));
+  
+  // Loop into required fields and make sure they match our needs
+  foreach($required_fields as $field) {   
+    // the field has been submitted?
+    if(!array_key_exists($field, $_POST)) array_push($validation, $field);
+    
+    // check there is information in the field?
+    if($_POST[$field] == '') array_push($validation, $field);
+    
+    // validate the email address supplied
+    if($field == 'email') if(!validate_email_address($_POST[$field])) array_push($validation, $field);
+  }
+  
+  // basic validation result
+  if(count($validation) == 0) {
+    // Prepare our content string
+    $email_content = 'Message from a thejonathantan.com visitor: ' . "\n\n";
+    
+    // simple email content
+    foreach($_POST as $key => $value) {
+      if($key != 'submit') $email_content .= $key . ': ' . $value . "\n";
+    }
+    
+    // if validation passed ok then send the email
+    mail($email_to, $email_subject, $email_content,$headers);
+    
+    // Update form switch
+    $form_complete = TRUE;
+  }
+}
+
+function validate_email_address($email = FALSE) {
+  return (preg_match('/^[^@\s]+@([-a-z0-9]+\.)+[a-z]{2,}$/i', $email))? TRUE : FALSE;
+}
+
+function remove_email_injection($field = FALSE) {
+   return (str_ireplace(array("\r", "\n", "%0a", "%0d", "Content-Type:", "bcc:","to:","cc:"), '', $field));
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,6 +99,28 @@
 
   <body id="page-top">
 
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="container">
+        <?php if($form_complete === FALSE): ?>
+        <form action="index.php" method="post" >
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+              <input type="email" class="form-control emailInput" id="inputEmail3" placeholder="uparktoronto@gmail.com"name="email" value="<?php echo isset($_POST['email'])? $_POST['email'] : ''; ?>"/><?php if(in_array('email', $validation)): ?><span class="error"><?php echo $error_messages['email']; ?></span><?php endif; ?><br />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-outline btn-xl emailBtn">Submit</button>
+        </form>
+      </div>
+      </div>
+
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <a class="navbar-brand" href="#">
@@ -54,7 +145,7 @@
           <div class="col-lg-7 my-auto">
             <div class="header-content mx-auto">
               <h1 class="mb-5">UPark is a parking lot tracking app that will ease the pain of finding a parking spot</h1>
-              <a href="#download" class="btn btn-outline btn-xl">Subscribe for updates!</a>
+              <a id="myBtn" class="btn btn-outline btn-xl">Subscribe</a>
             </div>
           </div>
           <div class="col-lg-5 my-auto">
@@ -116,7 +207,7 @@
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for this template -->
-    <script src="js/new-age.min.js"></script>
+    <script src="js/new-age.js"></script>
 
   </body>
 
