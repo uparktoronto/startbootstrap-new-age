@@ -57,8 +57,8 @@ section {
   font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
   font-weight: 200;
   letter-spacing: 1px;
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;}
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;}
   #mainNav .navbar-brand {
     color: #fdcc52;
     font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
@@ -366,6 +366,7 @@ footer {
 
 .emailInput {
   line-height: 28px;
+  border: none;
 }
 
 .emailBtn {
@@ -387,4 +388,8 @@ footer {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+.promiseText {
+  text-align: center;
 }
